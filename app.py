@@ -13,7 +13,9 @@ st.set_page_config(
 @st.cache_resource
 def load_model():
     with open("hgb_model.pkl", "rb") as f:
-        return pickle.load(f)
+        artifacts = pickle.load(f)
+    artifacts["explainer"] = shap.Explainer(artifacts["model"])
+    return artifacts
 
 try:
     artifacts = load_model()
