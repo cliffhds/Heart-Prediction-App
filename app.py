@@ -1,13 +1,14 @@
 import pickle
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import streamlit as st
 
 try:
+    import matplotlib.pyplot as plt
     import shap
-except ImportError:
+except Exception:
+    plt = None
     shap = None
 
 st.set_page_config(
@@ -133,7 +134,7 @@ if st.button("Predict", type="primary", use_container_width=True):
     with st.expander("Input summary"):
         st.dataframe(input_df, hide_index=True, use_container_width=True)
 
-    if shap is None:
+    if shap is None or plt is None:
         st.info("SHAP is not installed, so feature explanations are skipped.")
     else:
         st.subheader("Feature Contributions")
